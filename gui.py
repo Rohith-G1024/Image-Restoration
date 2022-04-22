@@ -7,7 +7,7 @@ class Restore:
     def __init__(self, view,size):
         self.view = view
         self.filepath = None
-        self.size = size
+        self.size = ((size[0]-50), abs(size[1]-50))
 
     def selectImage(self):
         file = filedialog.askopenfilename(
