@@ -21,7 +21,10 @@ class Restore:
         self.view.image = img
         self.filepath = file
 
-    def fixImage(self):
+    def denoise(self):
+        pass
+
+    def colorize(self):
         pass
 
 
@@ -34,11 +37,14 @@ frame.pack(side=tk.BOTTOM,padx = 10, pady = 15)
 view = tk.Label()
 view.pack()
 obj = Restore(view,size)
-btn1 = tk.Button(frame, text = "Select Image to Restore", command=obj.selectImage)
+btn1 = tk.Button(frame, text = "Select Image", command=obj.selectImage)
 btn1.pack(side=tk.LEFT,padx=10)
 
-restore = tk.Button(frame,text="Restore Image",command=obj.fixImage)
-restore.pack(side=tk.LEFT,padx=17)
+colorize = tk.Button(frame, text = "Colorize Image", command = obj.colorize)
+colorize.pack(side=tk.LEFT,padx=10)
+
+restore = tk.Button(frame,text="Restore Image",command=obj.denoise)
+restore.pack(side=tk.LEFT,padx=10)
 
 main.mainloop()
 
