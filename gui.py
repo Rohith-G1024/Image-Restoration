@@ -14,6 +14,9 @@ class Restore:
             initialdir = os.getcwd(),
             title = "Select Image",
             filetype = (("JPG File","*.jpg"),("PNG File","*.png"),("All  Files","*.txt")))
+        self.displayImage(file)
+    
+    def displayImage(self,file):
         img = Image.open(file)
         img = img.resize(self.size)
         img = ImageTk.PhotoImage(img)
