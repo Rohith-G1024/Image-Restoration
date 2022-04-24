@@ -2,12 +2,14 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 from PIL import Image, ImageTk
+from load_model import Denoise
 
 class Restore:
     def __init__(self, view,size):
         self.view = view
         self.filepath = None
         self.size = ((size[0]-50), abs(size[1]-50))
+        self.model = Denoise()
 
     def selectImage(self):
         file = filedialog.askopenfilename(
@@ -15,9 +17,15 @@ class Restore:
             title = "Select Image",
             filetype = (("JPG File","*.jpg"),("PNG File","*.png"),("All  Files","*.txt")))
         self.displayImage(file)
+
     
     def displayImage(self,file):
         img = Image.open(file)
+        if img.size != (32,32):
+            print("changed")
+            img = img.resize((32,32))
+            img.save(file)
+            img = Image.open(file)
         img = img.resize(self.size)
         img = ImageTk.PhotoImage(img)
         self.view.configure(image = img)
@@ -25,7 +33,8 @@ class Restore:
         self.filepath = file
 
     def denoise(self):
-        pass
+        self.model.deNoise(self.filepath)
+        self.displayImage("restored.jpg")
 
     def colorize(self):
         pass
