@@ -13,7 +13,7 @@ class Restore:
 
     def selectImage(self):
         file = filedialog.askopenfilename(
-            initialdir = os.getcwd(),
+            initialdir = "Cifar10 data",
             title = "Select Image",
             filetype = (("JPG File","*.jpg"),("PNG File","*.png"),("All  Files","*.txt")))
         self.displayImage(file)
