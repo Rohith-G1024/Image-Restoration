@@ -50,6 +50,7 @@ main.geometry(f"{size[0]}x{size[1]}")
 frame.pack(side=tk.BOTTOM,padx = 10, pady = 15)
 view = tk.Label()
 view.pack()
+
 obj = Restore(view,size)
 btn1 = tk.Button(frame, text = "Select Image", command=obj.selectImage)
 btn1.pack(side=tk.LEFT,padx=10)
