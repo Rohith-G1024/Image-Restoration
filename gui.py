@@ -2,18 +2,20 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 from PIL import Image, ImageTk
-from load_model import Denoise
+from load_model import Denoise, Colorize
+import cv2
 
 class Restore:
     def __init__(self, view,size):
         self.view = view
         self.filepath = None
         self.size = ((size[0]-50), abs(size[1]-50))
-        self.model = Denoise()
+        self.Denoise = Denoise()
+        self.Colorize = Colorize()
 
     def selectImage(self):
         file = filedialog.askopenfilename(
-            initialdir = "Cifar10 data",
+            initialdir = os.curdir,
             title = "Select Image",
             filetype = (("JPG File","*.jpg"),("PNG File","*.png"),("All  Files","*.txt")))
         self.displayImage(file)
@@ -21,11 +23,6 @@ class Restore:
     
     def displayImage(self,file):
         img = Image.open(file)
-        if img.size != (32,32):
-            print("changed")
-            img = img.resize((32,32))
-            img.save(file)
-            img = Image.open(file)
         img = img.resize(self.size)
         img = ImageTk.PhotoImage(img)
         self.view.configure(image = img)
@@ -33,11 +30,16 @@ class Restore:
         self.filepath = file
 
     def denoise(self):
-        self.model.deNoise(self.filepath)
-        self.displayImage("restored.jpg")
+        if self.filepath:
+            img = cv2.imread(self.filepath)
+            img = cv2.resize(img,(32,32))
+            self.Denoise.deNoise(img)
+            self.displayImage("restored.jpg")
 
     def colorize(self):
-        pass
+        if self.filepath:
+            self.Colorize.colorize(self.filepath)
+            self.displayImage("restored.jpg")
 
 
 main =tk.Tk()
@@ -55,7 +57,7 @@ btn1.pack(side=tk.LEFT,padx=10)
 colorize = tk.Button(frame, text = "Colorize Image", command = obj.colorize)
 colorize.pack(side=tk.LEFT,padx=10)
 
-restore = tk.Button(frame,text="Restore Image",command=obj.denoise)
+restore = tk.Button(frame,text="Denoise Image",command=obj.denoise)
 restore.pack(side=tk.LEFT,padx=10)
 
 main.mainloop()
